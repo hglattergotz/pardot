@@ -1,12 +1,12 @@
-Pardot API connector
-
-*Goals:*
-
- * Provide single method for executing any command on any of the endpoints
- * Parse the response and return only the data
- * Take care of error handling
+A PHP implementation of a Pardot API connector
 
 [![Build Status](https://travis-ci.org/hglattergotz/pardot.png)](https://travis-ci.org/hglattergotz/pardot)
+
+**Goals:**
+
+ * Provide a single method for executing any command on any of the Pardot endpoints
+ * Parse the response and return only the data
+ * Take care of error handling
 
 ## Installation
 
@@ -30,6 +30,7 @@ Using Composer:
 use HGG\Pardot\Connector;
 use HGG\Pardot\Exception\PardotException;
 
+// email, user-key and password are required
 $connectorParameters = array(
     'email'    => 'The email address of the user account',
     'user-key' => 'The user key of the user account (in My Settings)',
