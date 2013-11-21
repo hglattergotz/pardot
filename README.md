@@ -1,5 +1,11 @@
 Pardot API connector
 
+*Goals:*
+
+ * Provide single method for executing any command on any of the endpoints
+ * Parse the response and return only the data
+ * Take care of error handling
+
 [![Build Status](https://travis-ci.org/hglattergotz/pardot.png)](https://travis-ci.org/hglattergotz/pardot)
 
 ## Installation

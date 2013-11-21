@@ -2,7 +2,7 @@
 
 namespace HGG\Pardot\Test;
 
-use HGG\Pardot\JsonResponseHandler;
+use HGG\Pardot\ResponseHandler\JsonResponseHandler;
 
 class JsonParserTest extends \PHPUnit_Framework_TestCase
 {

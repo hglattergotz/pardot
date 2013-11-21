@@ -1,6 +1,6 @@
 <?php
 
-namespace HGG\Pardot;
+namespace HGG\Pardot\ResponseHandler;
 
 use HGG\Pardot\Exception\PardotException;
 use HGG\Pardot\Exception\PardotAuthenticationErrorException;
