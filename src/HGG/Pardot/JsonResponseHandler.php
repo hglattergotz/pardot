@@ -35,7 +35,7 @@ class JsonResponseHandler extends AbstractResponseHandler
         } else {
             if (array_key_exists('result', $document)) {
                 $this->resultCount = $document['result']['total_results'];
-                $this->result = $document['result'][$this->object];
+                $this->result = $document['result'][$object];
             } elseif (array_key_exists($object, $document)) {
                 $this->resultCount = 1;
                 $this->result = $document[$object];
