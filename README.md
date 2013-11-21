@@ -13,3 +13,36 @@ Using Composer:
     }
 }
 ```
+
+## Usage
+
+### Create a prospect
+
+```php
+<?php
+
+use HGG\Pardot\Connector;
+use HGG\Pardot\Exception\PardotException;
+
+$connectorParameters = array(
+    'email'    => 'The email address of the user account',
+    'user-key' => 'The user key of the user account (in My Settings)',
+    'password' => 'The account password',
+    'format'   => 'json',
+    'output'   => 'full'
+);
+
+$connector = new Connector($connectorParameters);
+$response = $connector->post('prospect', 'create', array('email' => 'some@example.com'));
+```
+
+### Read (get) a prospect by the email address
+
+```php
+<?php
+
+// See above for setup
+
+$connector = new Connector($connectorParameters);
+$response = $connector->post('prospect', 'read', array('email' => 'some@example.com'));
+```
