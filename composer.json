@@ -1,0 +1,28 @@
+{
+    "name": "hgg/pardot",
+    "type": "library",
+    "description": "Pardot API connector",
+    "keywords": [ "pardot", "salesforce", "api", "rest" ],
+    "homepage": "http://github.com/hglattergotz/pardot",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Henning Glatter-Götz",
+            "email": "henning@glatter-gotz.com",
+            "homepage": "http://glatter-gotz.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "guzzle/guzzle": "3.2.0",
+        "hgg/parameter-validator": "dev-master",
+        "icecave/collections": "dev-develop"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~3.7.0"
+    },
+    "autoload": {
+        "psr-0": { "HGG\\Pardot\\": "src/" }
+    },
+    "minimum-stability": "dev"
+}
