@@ -1,6 +1,6 @@
 # Pardot
 
-[![Build Status]](http://travis-ci.org/hglattergotz/pardot):w
+[![Build Status]](https://travis-ci.org/hglattergotz/pardot)
 
 **Pardot** is an API connector for the [Pardot API](http://developer.pardot.com/kb/api-version-3/introduction-table-of-contents) implemented in PHP. It facilitates
 access to all the API endpoints that Pardot exposes.
