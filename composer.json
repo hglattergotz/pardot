@@ -16,7 +16,6 @@
         "php": ">=5.3.3",
         "guzzle/guzzle": "3.2.0",
         "hgg/parameter-validator": "dev-master",
-        "respect/validation": "0.4.4",
         "icecave/collections": "dev-develop"
     },
     "require-dev": {

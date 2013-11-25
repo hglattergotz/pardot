@@ -14,7 +14,6 @@ use Guzzle\Http\Exception\BadResponseException;
 use Guzzle\Http\Exception\GuzzleException;
 use HGG\ParameterValidator\Validator\ArrayValidator;
 use Icecave\Collections\Map;
-use Respect\Validation\Validator as v;
 
 /**
  * A convenience class that takes care of the various task that are necessary
@@ -231,66 +230,6 @@ class Connector
 
             return $this->doPost($object, $url, $parameters);
         }
-    }
-
-    /**
-     * makeUrl
-     *
-     * @param mixed $object
-     * @param bool $operation
-     * @param bool $parameters
-     * @access protected
-     * @return void
-     */
-    protected function makeUrl($object, $operation = null, $parameters = array())
-    {
-        $url = '';
-
-        if ('login' == $object) {
-            $url = sprintf('/api/%s/version/%s', $object, $this->version);
-        } elseif ('query' == $operation) {
-            $url = sprintf('/api/%s/version/%s/do/%s', $object, $this->version, $operation);
-        } else {
-            $identifier = $this->getIdentifier($parameters);
-
-            $url = sprintf('/api/%s/version/%s/do/%s/%s/%s', $object, $this->version, $operation, $identifier['field'], $identifier['value']);
-        }
-
-        return $url;
-    }
-
-    /**
-     * getIdentifier
-     *
-     * @param mixed $parameters
-     * @access protected
-     * @return void
-     */
-    protected function getIdentifier($parameters)
-    {
-        $identifier = array();
-
-        if (array_key_exists('id', $parameters)) {
-
-            if (!v::int()->positive()->validate($parameters['id'])) {
-                throw new InvalidArgumentException(sprintf('The value for \'id\' is not a positive integer. Found %s', $parameters['id']));
-            }
-
-            $identifier['name'] = 'id';
-            $identifier['value'] = $parameters['id'];
-        } elseif (array_key_exists('email', $parameters)) {
-
-            if (!v::email()->validate($parameters['email'])) {
-                throw new InvalidArgumentException(sprintf('The value for \'email\' is not an email address. Found %s', $parameters['email']));
-            }
-
-            $identifier['name'] = 'email';
-            $identifier['value'] = $parameters['email'];
-        } else {
-            throw new InvalidArgumentException('The id or email must be set.');
-        }
-
-        return $identifier;
     }
 
     /**
