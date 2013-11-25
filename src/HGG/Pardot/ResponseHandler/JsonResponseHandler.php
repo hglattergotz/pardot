@@ -2,8 +2,8 @@
 
 namespace HGG\Pardot\ResponseHandler;
 
-use HGG\Pardot\Exception\PardotException;
-use HGG\Pardot\Exception\PardotAuthenticationErrorException;
+use HGG\Pardot\Exception\RuntimeException;
+use HGG\Pardot\Exception\AuthenticationErrorException;
 
 /**
  * JsonResponseHandler
@@ -23,14 +23,13 @@ class JsonResponseHandler extends AbstractResponseHandler
     protected function parse($document, $object)
     {
         if ('ok' !== $document['@attributes']['stat']) {
-            $isError = true;
             $errorCode = $document['@attributes']['err_code'];
             $errorMessage = $document['err'];
 
             if (15 === $errorCode) {
-                throw new PardotAuthenticationErrorException($errorMessage, $errorCode);
+                throw new AuthenticationErrorException($errorMessage, $errorCode);
             } else {
-                throw new PardotException($errorMessage, $errorCode);
+                throw new RuntimeException($errorMessage, $errorCode);
             }
         } else {
             if (array_key_exists('result', $document)) {
@@ -43,8 +42,7 @@ class JsonResponseHandler extends AbstractResponseHandler
                 $this->resultCount = 0;
                 $this->result = $document['api_key'];
             } else {
-                print_r($document);
-                throw new PardotException('Unknown response format');
+                throw new RuntimeException('Unknown response format '.json_encode($document));
             }
         }
     }

@@ -2,8 +2,8 @@
 
 namespace HGG\Pardot\ResponseHandler;
 
-use HGG\Pardot\Exception\PardotException;
-use HGG\Pardot\Exception\PardotAuthenticationErrorException;
+use HGG\Pardot\Exception\RuntimeException;
+use HGG\Pardot\Exception\AuthenticationErrorException;
 
 /**
  * XmlResponseHandler
@@ -23,7 +23,7 @@ class XmlResponseHandler extends AbstractResponseHandler
     protected function parse($document, $object)
     {
         if (!$document instanceof SimpleXmlElement) {
-            throw new PardotException('Document is not instance of SimpleXmlElement');
+            throw new RuntimeException('Document is not instance of SimpleXmlElement');
         }
 
         if ('ok' !== (string) $document->attributes()->stat) {
@@ -31,9 +31,9 @@ class XmlResponseHandler extends AbstractResponseHandler
             $errorMessage = (string) $document->err;
 
             if (15 === $errorCode) {
-                throw new PardotAuthenticationErrorException($errorMessage, $errorCode);
+                throw new AuthenticationErrorException($errorMessage, $errorCode);
             } else {
-                throw new PardotException($errorMessage, $errorCode);
+                throw new RuntimeException($errorMessage, $errorCode);
             }
         }
 
@@ -47,7 +47,7 @@ class XmlResponseHandler extends AbstractResponseHandler
                 $this->resultCount = 1;
                 $this->result = array($document->$object);
             } else {
-                throw new PardotException('Unknown response format');
+                throw new RuntimeException('Unknown response format');
             }
         }
     }

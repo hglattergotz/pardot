@@ -2,44 +2,44 @@
 
 namespace HGG\Pardot\Exception;
 
+use HGG\Pardot\Exception\ExceptionInterface;
+
 /**
- * PardotException
+ * InvalidArgumentException
  *
  * @author Henning Glatter-Götz <henning@glatter-gotz.com>
  */
-class PardotException extends \RuntimeException
+class InvalidArgumentException extends \InvalidArgumentException implements ExceptionInterface
 {
-    protected $details = array();
+    protected $url;
+    protected $parameters;
 
     public function __construct($message = '', $code = 0, $previous = null, $url = '', $parameters = array())
     {
         parent::__construct($message, $code, $previous);
-        $this->details['url'] = $url;
-        $this->details['parameters'] = $parameters;
+
+        $this->url = $url;
+        $this->parameters = $parameters;
     }
 
     public function getUrl()
     {
-        return $this->details['url'];
+        return $this->url;
     }
 
     public function setUrl($url)
     {
-        $this->details['url'] = $url;
+        $this->url = $url;
     }
 
     public function getParameters()
     {
-        return $this->details['parameters'];
+        return $this->parameters;
     }
 
     public function setParameters($parameters)
     {
-        $this->details['parameters'] = $parameters;
-    }
-
-    public function getDetails()
-    {
-        return $this->details;
+        $this->parameters = $parameters;
     }
 }
+
