@@ -31,8 +31,10 @@ This connector captures the status codes and messages and throws exceptions that
 contain this information. If it should be necessary to handle the individual cases
 this is possible by catching the exception and getting the code from it.
 
-All exceptions emitted by the library are of type PardotException. Any exceptions
-raised in the HTTP layer are wrapped into a PardotException.
+All exceptions emitted by the library implement the ExceptionInterface. Any
+exceptions raised in the HTTP layer are wrapped into a RequestException.
+
+See Error Handling for more details.
 
 ## Usage
 
@@ -97,3 +99,70 @@ set.
 
 $response = $connector->post('prospect', 'read', array('email' => 'some@example.com'));
 ```
+
+## Error Handling
+
+All library exceptions implement the common ExceptionInterface interface.
+
+#### Exception Hierarchy
+
+All library exceptions extend the common SPL exceptions.
+
+```
+\Exception
+  |
+  |- ExceptionCollection
+  |
+  |- \LogicException
+  |    |- \InvalidArgumentExcpetion
+  |         |- InvalidArgumentExcpetion
+  |
+  |- \RuntimeException
+       |- RuntimeException
+           |- AuthenticationErrorException
+           |- RequestException
+```
+
+The following exceptions are thrown:
+
+#### AuthenticationErrorException
+
+When authentication against the Pardot API fails.
+
+#### ExceptionCollection
+
+When the Pardot API returns error code 10000 that can contain multiple errors.
+
+#### InvalidArgumentException
+
+Type errors such as passing an invalid Connector construction parameters.
+
+#### RequestException
+
+Exceptions emitted by the HTTP layer (GuzzlePHP' HTTPException) are wraped in a
+RequestExcpetion.
+
+#### RuntimeException
+
+All non HTTPExceptions from Guzzle and non authentication errors returned by the
+Pardot API.
+
+### Examples
+
+#### Catch any HGG\Pardot exception
+
+If not specific error handling is required or needed just use this as a catch-all.
+
+```php
+<?php
+
+use HGG\Pardot\Exception\ExceptionInterface;
+
+try {
+    // Pardot library code
+} catch (ExceptionInterface $e) {
+    // Handle it here
+}
+```
+
+
