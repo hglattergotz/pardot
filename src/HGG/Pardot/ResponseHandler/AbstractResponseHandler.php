@@ -36,8 +36,9 @@ abstract class AbstractResponseHandler
     /**
      * __construct
      *
-     * @param array $document
+     * @param array  $document
      * @param string $object
+     *
      * @access public
      * @return void
      */
@@ -74,6 +75,7 @@ abstract class AbstractResponseHandler
      *
      * @param mixed $document
      * @param mixed $object
+     *
      * @access protected
      * @return void
      */

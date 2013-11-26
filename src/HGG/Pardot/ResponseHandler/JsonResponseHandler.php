@@ -17,6 +17,7 @@ class JsonResponseHandler extends AbstractResponseHandler
      *
      * @param mixed $document
      * @param mixed $object
+     *
      * @access protected
      * @return void
      */

@@ -7,4 +7,6 @@ namespace HGG\Pardot\Exception;
  *
  * @author Henning Glatter-Götz <henning@glatter-gotz.com>
  */
-interface ExceptionInterface {}
+interface ExceptionInterface
+{
+}

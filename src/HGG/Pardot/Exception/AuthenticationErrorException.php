@@ -11,4 +11,5 @@ use HGG\Pardot\Exception\RuntimeException;
  * @author Henning Glatter-Götz <henning@glatter-gotz.com>
  */
 class AuthenticationErrorException extends RuntimeException
-{}
+{
+}

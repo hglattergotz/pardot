@@ -106,7 +106,8 @@ class Connector
      * __construct
      *
      * @param array $parameters
-     * @param bool $httpClient
+     * @param bool  $httpClient
+     *
      * @access public
      *
      * @return void
@@ -195,16 +196,18 @@ class Connector
      * If an API key is present but happens to be stale, this is detected as
      * well and a call to authenticate is made to get a new key.
      *
-     * @param string $object    The object of interest
-     * @param string $operation The operation to be performed
-     * @param array $parameters The parameters to send
+     * @param string $object     The object of interest
+     * @param string $operation  The operation to be performed
+     * @param array  $parameters The parameters to send
+     *
      * @access public
      *
-     * @return mixed            If format is XML then an array of
-     *                          SimpleXmlElement objects, else an associative
-     *                          array (decoded JSON)
+     * @return mixed            In case of format=JSON it returns PHP arrays, if
+     *                          format=XML it will either return a single
+     *                          SimpleXMLElement or an array of SimpleXmlElements
      *
-     * @throws Exception\PardotException
+     * @throws                  HGG\Pardot\RequestException
+     *                          HGG\Pardot\RuntimeException
      */
     public function post($object, $operation, $parameters)
     {
@@ -234,14 +237,21 @@ class Connector
 
     /**
      * Makes the actual HTTP POST call to the API, parses the response and
-     * returns it
+     * returns the data if there is any. Throws exceptions in case of error.
      *
-     * @param string $object
-     * @param string $url
-     * @param array $parameters
+     * @param string $object     The name of the object to perform an operation
+     *                           on
+     * @param string $url        The URL that will be accessed
+     * @param array  $parameters The parameters to send
+     *
      * @access protected
      *
-     * @return mixed
+     * @return mixed            In case of format=JSON it returns PHP arrays, if
+     *                          format=XML it will either return a single
+     *                          SimpleXMLElement or an array of SimpleXmlElements
+     *
+     * @throws                  HGG\Pardot\RequestException
+     *                          HGG\Pardot\RuntimeException
      */
     protected function doPost($object, $url, $parameters)
     {
@@ -279,11 +289,12 @@ class Connector
     /**
      * Instantiate the appropriate Response document handler
      *
-     * @param Guzzle\Http|Message|Response $response
-     * @param string $object
+     * @param Guzzle\Http|Message|Response $response The Guzzle Response object
+     * @param string                       $object   The name of the object
+     *
      * @access protected
      *
-     * @return void
+     * @return HGG\Pardot\AbstractResponseHanler
      */
     protected function getHandler($response, $object)
     {

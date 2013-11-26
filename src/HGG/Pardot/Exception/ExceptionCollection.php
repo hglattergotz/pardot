@@ -23,9 +23,10 @@ class ExceptionCollection extends \Exception implements ExceptionInterface, \Ite
      * __construct
      *
      * @param mixed $message
-     * @param int $code
-     * @param bool $previous
-     * @param bool $exceptions
+     * @param int   $code
+     * @param bool  $previous
+     * @param bool  $exceptions
+     *
      * @access public
      * @return void
      */
@@ -42,6 +43,7 @@ class ExceptionCollection extends \Exception implements ExceptionInterface, \Ite
      * addException
      *
      * @param mixed $exception
+     *
      * @access public
      * @return void
      */
