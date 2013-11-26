@@ -6,6 +6,7 @@ use HGG\Pardot\ResponseHandler\JsonResponseHandler;
 use HGG\Pardot\ResponseHandler\XmlResponseHandler;
 use HGG\Pardot\Exception\ExceptionInterface;
 use HGG\Pardot\Exception\InvalidArgumentException;
+use HGG\Pardot\Exception\RuntimeException;
 use HGG\Pardot\Exception\AuthenticationErrorException;
 use HGG\Pardot\Exception\RequestException;
 
