@@ -92,12 +92,30 @@ $response = $connector->post('prospect', 'create', array('email' => 'some@exampl
 performed on that object. The third parameter is an associative array of fields to be
 set.
 
-### Read (get) a prospect by the email address
+### Read a prospect
+
+Using the email address as the identifier
 
 ```php
 <?php
 
 $response = $connector->post('prospect', 'read', array('email' => 'some@example.com'));
+```
+
+Using the Pardot ID as the identifier
+
+```php
+<?php
+
+$response = $connector->post('prospect', 'read', array('id' => '12345'));
+```
+
+### Query prospects
+
+```php
+<?php
+
+$response = $connector->post('prospect', 'query', array('created_after' => 'yesterday'));
 ```
 
 ## Error Handling
@@ -149,7 +167,7 @@ Pardot API.
 
 ### Examples
 
-#### Catch any HGG\Pardot exception
+#### Catch any HGG\Pardot library exception
 
 If not specific error handling is required or needed just use this as a catch-all.
 
@@ -165,4 +183,22 @@ try {
 }
 ```
 
+#### Get useful logging information
 
+All library exceptions allow you to get at the URL that was called as well as
+the parameters that were sent. This can be helpful for identifying issues.
+
+```php
+<?php
+
+use HGG\Pardot\Exception\RuntimeException;
+
+try {
+    $connector->post('prospect', 'update', $parameters);
+} catch (RuntimeException $e) {
+    printf('Error Message: %s', $e->getMessage());
+    printf('Error code:    %d', $e->getCode()); // Pardot Error code
+    printf('url:           %s', $e->getUrl());
+    printf("Parameters:\n%s", print_r($e->getParameters(), true));
+}
+```
