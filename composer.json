@@ -1,8 +1,8 @@
 {
     "name": "hgg/pardot",
     "type": "library",
-    "description": "Pardot API connector",
-    "keywords": [ "pardot", "salesforce", "api", "rest" ],
+    "description": "Pardot API library for building custom CRM connectors",
+    "keywords": [ "pardot", "salesforce", "api", "rest", "json", "xml" ],
     "homepage": "http://github.com/hglattergotz/pardot",
     "license": "MIT",
     "authors": [
