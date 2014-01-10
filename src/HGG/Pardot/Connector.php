@@ -229,7 +229,7 @@ class Connector
 
         try {
             return $this->doPost($object, $url, $parameters);
-        } catch (PardotAuthenticationErrorException $e) {
+        } catch (AuthenticationErrorException $e) {
             $this->authenticate();
 
             return $this->doPost($object, $url, $parameters);
