@@ -27,7 +27,7 @@ class JsonResponseHandler extends AbstractResponseHandler
             $errorCode = $document['@attributes']['err_code'];
             $errorMessage = $document['err'];
 
-            if (15 === $errorCode) {
+            if (15 == $errorCode) {
                 throw new AuthenticationErrorException($errorMessage, $errorCode);
             } else {
                 throw new RuntimeException($errorMessage, $errorCode);
