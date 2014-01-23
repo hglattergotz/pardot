@@ -267,7 +267,7 @@ class Connector
             $msg = sprintf('%s. Http status code [%s]', $e->getMessage(), $e->getResponse()->getStatusCode());
 
             throw new RequestException($msg, 0, $e, $url, $parameters);
-        } catch (GuzzleException $e) {
+        } catch (\Exception $e) {
             throw new RuntimeException($e->getMessage(), 0, $e, $url, $parameters);
         }
 
