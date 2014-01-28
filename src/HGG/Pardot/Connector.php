@@ -231,6 +231,7 @@ class Connector
             return $this->doPost($object, $url, $parameters);
         } catch (AuthenticationErrorException $e) {
             $this->authenticate();
+            $parameters['api_key'] = $this->apiKey;
 
             return $this->doPost($object, $url, $parameters);
         }
