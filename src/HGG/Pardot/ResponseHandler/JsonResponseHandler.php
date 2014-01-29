@@ -6,20 +6,21 @@ use HGG\Pardot\Exception\RuntimeException;
 use HGG\Pardot\Exception\AuthenticationErrorException;
 
 /**
- * JsonResponseHandler
+ * Parse a json response document into the expected data structure and handle
+ * errors in form of throwing exceptions
  *
  * @author Henning Glatter-Götz <henning@glatter-gotz.com>
  */
 class JsonResponseHandler extends AbstractResponseHandler
 {
     /**
-     * parse
+     * Parse the response document
      *
      * @param mixed $document
      * @param mixed $object
      *
      * @access protected
-     * @return void
+     * @return array
      */
     protected function parse($document, $object)
     {

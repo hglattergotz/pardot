@@ -167,21 +167,21 @@ class Connector
      *
      * An API key obtained from the API upon authentication is valid for 60
      * minutes. If the Connector object is used for multiple requests during its
-     * live time, the originally obtained API key is reused to avoid making a
+     * lifetime, the originally obtained API key is reused to avoid making a
      * login request before every post request.
      * If a Connector instance is created many times during the time span in
      * which the API key is valid (because on a cron job or if initiated by user
      * actions) it can also make sense to cache the key either on disk or in
      * some other syste like memcache.
      * In this case the API key would be fetched with this method before the
-     * object is destroyed and stored.
+     * object is destroyed and stored in a persistent store.
      *
      * The next time the Connector is instantiated the api-key parameter can be
      * passed and the call to authenticate can be skipped.
      *
      * @access public
      *
-     * @return void
+     * @return string
      */
     public function getApiKey()
     {
@@ -289,7 +289,8 @@ class Connector
     }
 
     /**
-     * Instantiate the appropriate Response document handler
+     * Instantiate the appropriate Response document handler based on the
+     * format
      *
      * @param Guzzle\Http|Message|Response $response The Guzzle Response object
      * @param string                       $object   The name of the object

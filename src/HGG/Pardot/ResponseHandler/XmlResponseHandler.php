@@ -31,7 +31,7 @@ class XmlResponseHandler extends AbstractResponseHandler
             $errorCode = (integer) $document->err->attributes()->code;
             $errorMessage = (string) $document->err;
 
-            if (15 === $errorCode) {
+            if (in_array($errorCode, array(1, 15))) {
                 throw new AuthenticationErrorException($errorMessage, $errorCode);
             } else {
                 throw new RuntimeException($errorMessage, $errorCode);

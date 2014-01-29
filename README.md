@@ -19,8 +19,6 @@ access to all the API endpoints that Pardot exposes. This can be used to build a
  * [Collections](https://github.com/IcecaveStudios/collections) - A really nice implementation of common data structures
  * [parameter-validator](https://github.com/hglattergotz/parameter-validator) - A parameter validator library
 
-Why so many dependencies for such a small lib? Well, why reinvent the wheel?
-
 ## Conventions
 
 The Pardot API should be accessed via POST for all operations (recommended by Pardot).
@@ -29,7 +27,7 @@ outcome of the request, rather it always returns 2** response codes and sends ba
 own set of status codes that need to be handled.
 This connector captures the status codes and messages and throws exceptions that
 contain this information. If it should be necessary to handle the individual cases
-this is possible by catching the exception and getting the code from it.
+this is possible by catching the exception and extracting the error code from it.
 
 All exceptions emitted by the library implement the ExceptionInterface. Any
 exceptions raised in the HTTP layer are wrapped into a RequestException.
@@ -169,7 +167,7 @@ Pardot API.
 
 #### Catch any HGG\Pardot library exception
 
-If not specific error handling is required or needed just use this as a catch-all.
+If no specific error handling is required or needed just use this as a catch-all.
 
 ```php
 <?php
