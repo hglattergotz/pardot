@@ -104,6 +104,14 @@ class Connector
     protected $format  = 'json';
 
     /**
+     * totalResults
+     *
+     * @var integer
+     * @access protected
+     */
+    protected $totalResults = 0;
+
+    /**
      * __construct
      *
      * @param array $parameters
@@ -238,6 +246,20 @@ class Connector
     }
 
     /**
+     * Returns the total record count for the last query
+     *
+     * If it is higher than 200, subsequent queries will be necessary to get
+     * the entire result set from the server.
+     *
+     * @access public
+     * @return integer
+     */
+    public function getResultCount()
+    {
+        return $this->totalResults;
+    }
+
+    /**
      * Makes the actual HTTP POST call to the API, parses the response and
      * returns the data if there is any. Throws exceptions in case of error.
      *
@@ -277,7 +299,11 @@ class Connector
         }
 
         try {
-            return $this->getHandler($httpResponse, $object)->getResult();
+            $handler = $this->getHandler($httpResponse, $object);
+            $result = $handler->getResult();
+            $this->totalResults = $handler->getResultCount();
+
+            return $result;
         } catch (ExceptionInterface $e) {
             $e->setUrl($url);
             $e->setParameters($parameters);
