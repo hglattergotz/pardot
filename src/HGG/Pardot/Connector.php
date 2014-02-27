@@ -299,6 +299,7 @@ class Connector
         }
 
         try {
+            $object = preg_replace('/(^|[a-z])([A-Z])/e', 'strtolower(strlen("\\1") ? "\\1_\\2" : "\\2")', $object);
             $handler = $this->getHandler($httpResponse, $object);
             $result = $handler->getResult();
             $this->totalResults = $handler->getResultCount();
