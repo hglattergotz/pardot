@@ -27,7 +27,7 @@ class JsonResponseHandler extends AbstractResponseHandler
         $object = $this->objectNameToKey($object);
 
         if ('ok' !== $document['@attributes']['stat']) {
-            $errorCode = $document['@attributes']['err_code'];
+            $errorCode = (int) $document['@attributes']['err_code'];
             $errorMessage = $document['err'];
 
             if (in_array($errorCode, array(1, 15))) {
@@ -37,7 +37,7 @@ class JsonResponseHandler extends AbstractResponseHandler
             }
         } else {
             if (array_key_exists('result', $document)) {
-                $this->resultCount = $document['result']['total_results'];
+                $this->resultCount = (int) $document['result']['total_results'];
                 $this->result = (0 === $this->resultCount) ? array() : $document['result'][$object];
             } elseif (array_key_exists($object, $document)) {
                 $this->resultCount = 1;
