@@ -36,7 +36,7 @@ class JsonResponseHandler extends AbstractResponseHandler
         } else {
             if (array_key_exists('result', $document)) {
                 $this->resultCount = $document['result']['total_results'];
-                $this->result = (0 === $this->resultCount) ? array() : $document['result'][$object];
+                $this->result = (0 === $this->resultCount) ? array() : $document['result'][$this->objectNameToKey($object)];
             } elseif (array_key_exists($object, $document)) {
                 $this->resultCount = 1;
                 $this->result = $document[$object];
@@ -46,6 +46,29 @@ class JsonResponseHandler extends AbstractResponseHandler
             } else {
                 throw new RuntimeException('Unknown response format '.json_encode($document));
             }
+        }
+    }
+
+    /**
+     * Convert the object name to the key name that is returned in the result
+     * set. This is not consistently the same thing so a map is necessary. This
+     * is not yet comprehensive. There might be more exceptions.
+     *
+     * @param string $object
+     *
+     * @access protected
+     * @return void
+     */
+    protected function objectNameToKey($object)
+    {
+        $map = array(
+            'visitorActivity' => 'visitor_activity'
+        );
+
+        if (array_key_exists($object, $map)) {
+            return $map[$object];
+        } else {
+            return $object;
         }
     }
 }
