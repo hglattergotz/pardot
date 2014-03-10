@@ -11,6 +11,7 @@ use HGG\Pardot\Exception\AuthenticationErrorException;
 use HGG\Pardot\Exception\RequestException;
 
 use Guzzle\Http\Client;
+use Guzzle\Plugin\Backoff\BackoffPlugin;
 use Guzzle\Http\Exception\BadResponseException;
 use Guzzle\Http\Exception\GuzzleException;
 use HGG\ParameterValidator\Validator\ArrayValidator;
@@ -112,22 +113,36 @@ class Connector
     protected $totalResults = 0;
 
     /**
+     * httpClientOptions
+     *
+     * @var mixed
+     * @access protected
+     */
+    protected $httpClientOptions;
+
+    /**
      * __construct
      *
-     * @param array $parameters
-     * @param bool  $httpClient
+     * @param array               $parameters
+     * @param \Guzzle\Http|Client $httpClient
+     * @param array               $httpClientOptions
      *
      * @access public
      *
      * @return void
      */
-    public function __construct(array $parameters, $httpClient = null)
+    public function __construct(
+        array $parameters,
+        \Guzzle\Http\Client $httpClient = null,
+        $httpClientOptions = array('timeout' => 10))
     {
         try {
             $required = array('email', 'user-key', 'password');
             $optional = array('base-url', 'version', 'output', 'format', 'api-key');
             ArrayValidator::contains(array_keys($parameters), $required, $optional, false);
             $map = new Map($parameters);
+
+            $this->httpClientOptions = $httpClientOptions;
 
             $this->email    = $map->get('email');
             $this->userKey  = $map->get('user-key');
@@ -138,7 +153,7 @@ class Connector
             $this->format   = $map->getWithDefault('format', $this->format);
             $this->apiKey   = $map->getWithDefault('api-key', null);
 
-            $this->client = (null === $httpClient) ? new Client($this->baseUrl) : $httpClient;
+            $this->client = (null === $httpClient) ? $this->getClient() : $httpClient;
         } catch (Exception $e) {
             throw new InvalidArgumentException($e->getMessage(), 0, $e);
         }
@@ -260,6 +275,25 @@ class Connector
     }
 
     /**
+     * Construct the Guzzle Http Client with the exponential retry plugin
+     *
+     * @access protected
+     * @return \Guzzle|Http\Client
+     */
+    protected function getClient()
+    {
+        $retries   = 5;
+        $httpCodes = null;
+        $curlCodes = null;
+
+        $plugin = BackoffPlugin::getExponentialBackoff($retries, $httpCodes, $curlCodes);
+        $client = new Client($this->baseUrl);
+        $client->addSubscriber($plugin);
+
+        return $client;
+    }
+
+    /**
      * Makes the actual HTTP POST call to the API, parses the response and
      * returns the data if there is any. Throws exceptions in case of error.
      *
@@ -280,9 +314,12 @@ class Connector
     protected function doPost($object, $url, $parameters)
     {
         $httpResponse = null;
+        $headers = null;
+        $postBody = null;
+        $options = $this->httpClientOptions;
 
         try {
-            $httpResponse = $this->client->post($url)
+            $httpResponse = $this->client->post($url, $headers, $postBody, $options)
                 ->setHeader('Content-Type', 'application/x-www-form-urlencoded')
                 ->setBody(http_build_query($parameters))
                 ->send();
