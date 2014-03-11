@@ -53,10 +53,16 @@ initialization parameters for the connector.
  * ```output``` - The level of detail that is returned. Possible values are ```full```, ```simple```, ```mobile```. Default ```full```
  * ```api-key``` - If the API key is being cached it can be injected into the constructor. Default ```null```
 
+The second parameter is optional and is an instance of the Guzzle\Http\Client.
 By default the Guzzle\Http\Client is instantiated with the exponential backoff
 plugin. It is configured for 5 retries (after 2, 4, 8, 16 and 32 seconds). If
 these settings are not desirable an instance of the client can be injected into
 the constructor with whatever settings/plugins are needed.
+
+The third parameter is optional and is an array of options for the Guzzle Client
+post method.
+Default is array('timeout' => 10), which sets the timeout for the client to 10
+seconds.
 
 ```php
 <?php
