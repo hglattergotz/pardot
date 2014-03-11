@@ -9,7 +9,7 @@ access to all the API endpoints that Pardot exposes. This can be used to build a
 
 ## Goals
 
- * Provide a single method for executing any command on any of the Pardot endpoints
+ * Provide a single method for executing any operation on any of the Pardot endpoints
  * Parse the response and return only the data (decoded JSON or SimpleXmlElement)
  * Take care of error handling
 
