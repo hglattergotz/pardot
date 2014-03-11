@@ -10,7 +10,7 @@ access to all the API endpoints that Pardot exposes. This can be used to build a
 ## Goals
 
  * Provide a single method for executing any operation on any of the Pardot endpoints
- * Parse the response and return only the data (decoded JSON or SimpleXmlElement)
+ * Parse the response and return only the data (PHP array from decoded JSON or a SimpleXmlElement)
  * Take care of error handling
 
 ## Dependencies
@@ -78,7 +78,7 @@ $connectorParameters = array(
     'output'   => 'full'
 );
 
-$connector = new Connector($connectorParameters, null);
+$connector = new Connector($connectorParameters);
 ```
 
 ### Create a prospect
