@@ -25,8 +25,8 @@ class JsonParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testPass($document, $object, $expected)
     {
-        $handler = new JsonResponseHandler($object);
-        $handler->parse($document);
+        $handler = new JsonResponseHandler($document);
+        $handler->parse($object);
         $this->assertEquals($expected, $handler->getResult());
     }
 
