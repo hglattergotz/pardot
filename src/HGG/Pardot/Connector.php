@@ -121,6 +121,14 @@ class Connector
     protected $httpClientOptions;
 
     /**
+     * rawResponse
+     *
+     * @var mixed
+     * @access protected
+     */
+    protected $rawResponse;
+
+    /**
      * __construct
      *
      * @param array               $parameters
@@ -261,6 +269,20 @@ class Connector
     }
 
     /**
+     * Returns the response document that the api returns before any processing
+     * takes place. It will either be a PHP array or a SimpleXmlElement
+     * depending on whether the requested format is json or xml.
+     * This can be used for logging purposes.
+     *
+     * @access public
+     * @return mixed
+     */
+    public function getRawResponse()
+    {
+        return $this->rawResponse;
+    }
+
+    /**
      * Returns the total record count for the last query
      *
      * If it is higher than 200, subsequent queries will be necessary to get
@@ -336,8 +358,8 @@ class Connector
         }
 
         try {
-            $handler = $this->getHandler($httpResponse, $object);
-            $result = $handler->getResult();
+            $handler = $this->getHandler($httpResponse);
+            $result = $handler->parse($object)->getResult();
             $this->totalResults = $handler->getResultCount();
 
             return $result;
@@ -356,22 +378,23 @@ class Connector
      * format
      *
      * @param Guzzle\Http|Message|Response $response The Guzzle Response object
-     * @param string                       $object   The name of the object
      *
      * @access protected
      *
      * @return HGG\Pardot\AbstractResponseHanler
      */
-    protected function getHandler($response, $object)
+    protected function getHandler($response)
     {
         $handler = null;
 
         switch ($this->format) {
         case 'json':
-            $handler = new JsonResponseHandler($response->json(), $object);
+            $this->rawResponse = $response->json();
+            $handler = new JsonResponseHandler($this->rawResponse);
             break;
         case 'xml':
-            $handler = new XmlResponseHandler($response->xml(), $object);
+            $this->rawResponse = $response->xml();
+            $handler = new XmlResponseHandler($this->rawResponse);
             break;
         }
 

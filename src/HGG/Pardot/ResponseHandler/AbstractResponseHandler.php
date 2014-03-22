@@ -10,12 +10,12 @@ namespace HGG\Pardot\ResponseHandler;
 abstract class AbstractResponseHandler
 {
     /**
-     * object
+     * document
      *
      * @var mixed
      * @access protected
      */
-    protected $object;
+    protected $document;
 
     /**
      * resultCount
@@ -36,16 +36,29 @@ abstract class AbstractResponseHandler
     /**
      * __construct
      *
-     * @param array  $document
-     * @param string $object
+     * @param mixed $rawDocument
      *
      * @access public
      * @return void
      */
-    public function __construct(array $document, $object)
+    public function __construct($rawDocument)
     {
-        $this->object = $object;
-        $this->parse($document, $object);
+        $this->document = $rawDocument;
+    }
+
+    /**
+     * parse
+     *
+     * @param mixed $object
+     *
+     * @access public
+     * @return void
+     */
+    public function parse($object)
+    {
+        $this->doParse($object);
+
+        return $this;
     }
 
     /**
@@ -71,7 +84,7 @@ abstract class AbstractResponseHandler
     }
 
     /**
-     * parse
+     * doParse
      *
      * @param mixed $document
      * @param mixed $object
@@ -79,5 +92,5 @@ abstract class AbstractResponseHandler
      * @access protected
      * @return void
      */
-    abstract protected function parse($document, $object);
+    abstract protected function doParse($document, $object);
 }

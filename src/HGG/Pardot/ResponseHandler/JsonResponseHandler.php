@@ -3,6 +3,7 @@
 namespace HGG\Pardot\ResponseHandler;
 
 use HGG\Pardot\Exception\RuntimeException;
+use HGG\Pardot\Exception\InvalidArgumentException;
 use HGG\Pardot\Exception\AuthenticationErrorException;
 
 /**
@@ -16,19 +17,21 @@ class JsonResponseHandler extends AbstractResponseHandler
     /**
      * Parse the response document
      *
-     * @param mixed $document
      * @param mixed $object
      *
      * @access protected
+     * @throws AuthenticationErrorException,
+     *         InvalidArgumentException,
+     *         RuntimeException
      * @return array
      */
-    protected function parse($document, $object)
+    protected function doParse($object)
     {
         $object = $this->objectNameToKey($object);
 
-        if ('ok' !== $document['@attributes']['stat']) {
-            $errorCode = (int) $document['@attributes']['err_code'];
-            $errorMessage = $document['err'];
+        if ('ok' !== $this->document['@attributes']['stat']) {
+            $errorCode = (int) $this->document['@attributes']['err_code'];
+            $errorMessage = $this->document['err'];
 
             if (in_array($errorCode, array(1, 15))) {
                 throw new AuthenticationErrorException($errorMessage, $errorCode);
@@ -36,17 +39,42 @@ class JsonResponseHandler extends AbstractResponseHandler
                 throw new RuntimeException($errorMessage, $errorCode);
             }
         } else {
-            if (array_key_exists('result', $document)) {
-                $this->resultCount = (int) $document['result']['total_results'];
-                $this->result = (0 === $this->resultCount) ? array() : $document['result'][$object];
-            } elseif (array_key_exists($object, $document)) {
+            if (array_key_exists('result', $this->document)) {
+                $this->parseMultiRecordResult($object);
+            } elseif (array_key_exists($object, $this->document)) {
                 $this->resultCount = 1;
-                $this->result = $document[$object];
-            } elseif (array_key_exists('api_key', $document)) {
+                $this->result = $this->document[$object];
+            } elseif (array_key_exists('api_key', $this->document)) {
                 $this->resultCount = 0;
-                $this->result = $document['api_key'];
+                $this->result = $this->document['api_key'];
             } else {
-                throw new RuntimeException('Unknown response format '.json_encode($document));
+                throw new RuntimeException('Unknown response format '.json_encode($this->document));
+            }
+        }
+    }
+
+    /**
+     * Parse response document containing multiple records
+     *
+     * @param string $object The name of the Pardot object being requested
+     *
+     * @access protected
+     * @throws InvalidArgumentException
+     * @return void
+     */
+    protected function parseMultiRecordResult($object)
+    {
+        $this->resultCount = (int) $this->document['result']['total_results'];
+
+        if (0 === $this->resultCount) {
+            $this->result = array();
+        } else {
+            if (array_key_exists($object, $this->document['result'])) {
+                $this->result = $this->document['result'][$object];
+            } else {
+                $msg = sprintf('The response does not contain the expected object key \'%s\'', $object);
+
+                throw new InvalidArgumentException($msg);
             }
         }
     }
