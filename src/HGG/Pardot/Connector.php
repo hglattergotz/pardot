@@ -228,8 +228,8 @@ class Connector
      * If an API key is present but happens to be stale, this is detected as
      * well and a call to authenticate is made to get a new key.
      *
-     * @param string $object     The object of interest
-     * @param string $operation  The operation to be performed
+     * @param string $object     The name of the Pardot object of interest
+     * @param string $operation  The operation to be performed on the object
      * @param array  $parameters The parameters to send
      *
      * @access public

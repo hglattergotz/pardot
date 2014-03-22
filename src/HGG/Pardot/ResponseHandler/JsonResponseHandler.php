@@ -17,7 +17,7 @@ class JsonResponseHandler extends AbstractResponseHandler
     /**
      * Parse the response document
      *
-     * @param mixed $object
+     * @param string $object The name of the Pardot object being processed
      *
      * @access protected
      * @throws AuthenticationErrorException,

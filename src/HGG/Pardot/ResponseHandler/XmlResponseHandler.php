@@ -6,16 +6,16 @@ use HGG\Pardot\Exception\RuntimeException;
 use HGG\Pardot\Exception\AuthenticationErrorException;
 
 /**
- * XmlResponseHandler
+ * ResponseHandler for xml formatted response documents
  *
  * @author Henning Glatter-Götz <henning@glatter-gotz.com>
  */
 class XmlResponseHandler extends AbstractResponseHandler
 {
     /**
-     * parse
+     * Parse the response document
      *
-     * @param mixed $object
+     * @param string $object The name of the Pardot object being processed
      *
      * @access protected
      * @return void

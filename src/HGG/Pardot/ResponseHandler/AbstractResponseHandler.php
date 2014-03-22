@@ -3,7 +3,7 @@
 namespace HGG\Pardot\ResponseHandler;
 
 /**
- * AbstractResponseHandler
+ * Base class for all Response Handlers
  *
  * @author Henning Glatter-Götz <henning@glatter-gotz.com>
  */
@@ -84,13 +84,13 @@ abstract class AbstractResponseHandler
     }
 
     /**
-     * doParse
+     * This is where the actual parsing of the response happens in the
+     * specialized Handlers
      *
-     * @param mixed $document
-     * @param mixed $object
+     * @param string $object The name of the Pardot object being parsed
      *
      * @access protected
      * @return void
      */
-    abstract protected function doParse($document, $object);
+    abstract protected function doParse($object);
 }
