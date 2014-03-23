@@ -358,8 +358,8 @@ class Connector
         }
 
         try {
-            $handler = $this->getHandler($httpResponse);
-            $result = $handler->parse($object)->getResult();
+            $handler = $this->getHandler($httpResponse, $object);
+            $result = $handler->parse()->getResult();
             $this->totalResults = $handler->getResultCount();
 
             return $result;
@@ -378,23 +378,24 @@ class Connector
      * format
      *
      * @param Guzzle\Http|Message|Response $response The Guzzle Response object
+     * @param string                       $object   The name of the pardot obj
      *
      * @access protected
      *
      * @return HGG\Pardot\AbstractResponseHanler
      */
-    protected function getHandler($response)
+    protected function getHandler($response, $object)
     {
         $handler = null;
 
         switch ($this->format) {
         case 'json':
             $this->rawResponse = $response->json();
-            $handler = new JsonResponseHandler($this->rawResponse);
+            $handler = new JsonResponseHandler($this->rawResponse, $object);
             break;
         case 'xml':
             $this->rawResponse = $response->xml();
-            $handler = new XmlResponseHandler($this->rawResponse);
+            $handler = new XmlResponseHandler($this->rawResponse, $object);
             break;
         }
 
