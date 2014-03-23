@@ -25,8 +25,8 @@ class JsonParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testPass($document, $object, $expected)
     {
-        $handler = new JsonResponseHandler($document);
-        $handler->parse($object);
+        $handler = new JsonResponseHandler($document, $object);
+        $handler->parse();
         $this->assertEquals($expected, $handler->getResult());
     }
 
@@ -38,8 +38,10 @@ class JsonParserTest extends \PHPUnit_Framework_TestCase
      */
     public function allPassDataProvider()
     {
-        return array(
-            array(
+        $testData = array();
+
+        // Login action response
+        $testData[] = array(
                 array(
                     '@attributes' => array(
                         'stat' => 'ok',
@@ -49,59 +51,91 @@ class JsonParserTest extends \PHPUnit_Framework_TestCase
                 ),
                 'login',
                 '12345'
-            ),
-            array(
+            );
+
+        // Multi record response from a query
+        $testData[] = array(
                 array(
                     '@attributes' => array(
                         'stat' => 'ok',
                         'version' => 1
                     ),
                     'result' => array(
-                        'total_results' => 1,
+                        'total_results' => 2,
                         'prospect' => array(
-                            array('field1' => 'value')
+                            array('field1' => 'value1'),
+                            array('field2' => 'value2')
                         )
                     )
                 ),
                 'prospect',
                 array(
-                    array('field1' => 'value')
+                    array('field1' => 'value1'),
+                    array('field2' => 'value2')
                 )
-            ),
-            array(
+            );
+
+        // Test visitorActivity request that comes back as visitor_activity
+        // (instead of visitorActivity), also happens to be a multi record
+        // response
+        $testData[] = array(
                 array(
                     '@attributes' => array(
                         'stat' => 'ok',
                         'version' => 1
                     ),
                     'result' => array(
-                        'total_results' => 1,
+                        'total_results' => 2,
                         'visitor_activity' => array(
-                            array('field1' => 'value')
+                            array('field1' => 'value1'),
+                            array('field2' => 'value2')
                         )
+                    )
+                ),
+                'visitorActivity',
+                array(
+                    array('field1' => 'value1'),
+                    array('field2' => 'value2')
+                )
+            );
+
+        // Edge case: second request of a query that returns 201 records where
+        // 200 is the limit. So the first response would have returned 200
+        // records and the second one just a single record, but it should be
+        // wrapped in an array instead of coming back as a single record
+        $testData[] = array(
+                array(
+                    '@attributes' => array(
+                        'stat' => 'ok',
+                        'version' => 1
+                    ),
+                    'result' => array(
+                        'total_results' => 201,
+                        'visitor_activity' => array('field1' => 'value')
                     )
                 ),
                 'visitorActivity',
                 array(
                     array('field1' => 'value')
                 )
-            ),
-            array(
+            );
+
+        // Single record response from a read
+        // Note that there is no total_results key and the record is not wrapped
+        // inside an array
+        $testData[] = array(
                 array(
                     '@attributes' => array(
                         'stat' => 'ok',
                         'version' => 1
                     ),
-                    'prospect' => array(
-                        array('field1' => 'value')
-                    )
+                    'prospect' => array('field1' => 'value')
                 ),
                 'prospect',
-                array(
-                    array('field1' => 'value')
-                )
-            )
-        );
+                array('field1' => 'value')
+            );
+
+        return $testData;
     }
 
     /**
