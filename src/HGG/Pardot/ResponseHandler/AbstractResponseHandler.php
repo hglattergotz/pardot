@@ -10,12 +10,20 @@ namespace HGG\Pardot\ResponseHandler;
 abstract class AbstractResponseHandler
 {
     /**
-     * document
+     * data
      *
      * @var mixed
      * @access protected
      */
-    protected $document;
+    protected $data;
+
+    /**
+     * objectName
+     *
+     * @var string
+     * @access protected
+     */
+    protected $objectName;
 
     /**
      * resultCount
@@ -36,27 +44,31 @@ abstract class AbstractResponseHandler
     /**
      * __construct
      *
-     * @param mixed $rawDocument
+     * @param mixed  $data       Data decoded from the response body, in case
+     *                           format is JSON this will be an assoc array, if
+     *                           format is xml then it will be a
+     *                           SimpleXMLElement
+     * @param string $objectName The name of the Pardot object this response is
+     *                           for
      *
      * @access public
      * @return void
      */
-    public function __construct($rawDocument)
+    public function __construct($data, $objectName)
     {
-        $this->document = $rawDocument;
+        $this->data = $data;
+        $this->objectName = $objectName;
     }
 
     /**
      * parse
      *
-     * @param mixed $object
-     *
      * @access public
      * @return void
      */
-    public function parse($object)
+    public function parse()
     {
-        $this->doParse($object);
+        $this->doParse();
 
         return $this;
     }
@@ -87,10 +99,9 @@ abstract class AbstractResponseHandler
      * This is where the actual parsing of the response happens in the
      * specialized Handlers
      *
-     * @param string $object The name of the Pardot object being parsed
-     *
      * @access protected
      * @return void
      */
-    abstract protected function doParse($object);
+    abstract protected function doParse();
 }
+
