@@ -8,6 +8,13 @@ use HGG\Pardot\Exception\AuthenticationErrorException;
 /**
  * ResponseHandler for xml formatted response documents
  *
+ * *****************************************************************************
+ * *****************************************************************************
+ * **** WARNRING: This handler is not tested and not up to date
+ * ****           Contributions welcome
+ * *****************************************************************************
+ * *****************************************************************************
+ *
  * @author Henning Glatter-Götz <henning@glatter-gotz.com>
  */
 class XmlResponseHandler extends AbstractResponseHandler
@@ -15,13 +22,15 @@ class XmlResponseHandler extends AbstractResponseHandler
     /**
      * Parse the response document
      *
-     * @param string $object The name of the Pardot object being processed
-     *
      * @access protected
      * @return void
      */
-    protected function doParse($object)
+    protected function doParse()
     {
+        // just make it work modified base class
+        $this->document = $this->data;
+        $object = $this->objectName;
+
         if (!$this->document instanceof SimpleXmlElement) {
             throw new RuntimeException('document is not instance of SimpleXmlElement');
         }
