@@ -13,6 +13,8 @@ access to all the API endpoints that Pardot exposes. This can be used to build a
  * Parse the response and return only the data (PHP array from decoded JSON or a SimpleXmlElement)
  * Take care of error handling
 
+**NOTE** The XML format is not fully supported by this library. I do not use XML and do not have time to keep the XML parser up to date.
+
 ## Dependencies
 
  * [Guzzle](http://docs.guzzlephp.org/en/latest/#) - PHP HTTP Client
@@ -99,6 +101,8 @@ $response = $connector->post('prospect', 'create', array('email' => 'some@exampl
 performed on that object. The third parameter is an associative array of fields to be
 set.
 
+The $response will be an array representing the record (keys being the field names and the values being the values of those fields)
+
 ### Read a prospect
 
 Using the email address as the identifier
@@ -117,6 +121,8 @@ Using the Pardot ID as the identifier
 $response = $connector->post('prospect', 'read', array('id' => '12345'));
 ```
 
+The $response will be an array representing the record (keys being the field names and the values being the values of those fields)
+
 ### Query prospects
 
 ```php
@@ -124,6 +130,12 @@ $response = $connector->post('prospect', 'read', array('id' => '12345'));
 
 $response = $connector->post('prospect', 'query', array('created_after' => 'yesterday'));
 ```
+
+If the query result spans more than 200 records and the limit for a request is set to 200
+then multiple requests will have to be made to fetch the entire result set.
+Each request that is part of a single query will return a collection/array of records,
+even if the collection only contains a single record. Note that the Pardot API does not
+natively do this.
 
 ## Error Handling
 
