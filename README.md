@@ -128,13 +128,13 @@ The $response will be an array representing the record (keys being the field nam
 ```php
 <?php
 
-$response = $connector->post('prospect',
-                             'query',
-                             array(
-                                 'created_after' => 'yesterday',
-                                 'limit'         => 200,
-                                 'offset'        => 0
-                             ));
+$queryParameters = array(
+    'created_after' => 'yesterday',
+    'limit'         => 200,
+    'offset'        => 0
+);
+
+$response = $connector->post('prospect', 'query', $queryParameters);
 
 // Obtain the total record count of the query from the connector
 // If this is larger than the limit make requests (increasing the offset each
