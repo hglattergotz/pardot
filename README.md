@@ -128,11 +128,16 @@ The $response will be an array representing the record (keys being the field nam
 ```php
 <?php
 
-$response = $connector->post('prospect', 'query', array('created_after' => 'yesterday'));
+$response = $connector->post('prospect', 'query', array('created_after' => 'yesterday', 'limit' => 200, 'offset' => 0));
+
+// Obtain the total record count of the query from the connector
+// If this is larger than the limit make requests (increasing the offset each time) until all records have been fetched
+$count = $connector->getResultCount();
 ```
 
 If the query result spans more than 200 records and the limit for a request is set to 200
 then multiple requests will have to be made to fetch the entire result set.
+The limit defaults to 200 and cannot be larger.
 Each request that is part of a single query will return a collection/array of records,
 even if the collection only contains a single record. Note that the Pardot API does not
 natively do this.
