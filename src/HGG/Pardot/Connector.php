@@ -50,12 +50,12 @@ class Connector
     protected $userKey;
 
     /**
-     * passpord
+     * password
      *
      * @var string
      * @access protected
      */
-    protected $passpord;
+    protected $password;
 
     /**
      * The API key that is obtained by the authentication step and must be sent
