@@ -15,7 +15,7 @@
     "require": {
         "php": ">=5.3.3",
         "guzzle/guzzle": ">=3.2.0",
-        "hgg/parameter-validator": "0.1.1",
+        "hgg/parameter-validator": "0.1.*",
         "icecave/collections": "1.0.0"
     },
     "require-dev": {
