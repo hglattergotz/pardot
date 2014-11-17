@@ -15,8 +15,8 @@
     "require": {
         "php": ">=5.3.3",
         "guzzle/guzzle": ">=3.2.0",
-        "hgg/parameter-validator": "dev-master",
-        "icecave/collections": "dev-develop"
+        "hgg/parameter-validator": "0.1.1",
+        "icecave/collections": "1.0.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~3.7.0"
