@@ -1,6 +1,6 @@
 # Pardot
 
-[![Build Status](https://travis-ci.org/hglattergotz/pardot.png)](https://travis-ci.org/hglattergotz/pardot)
+[![Build Status](https://travis-ci.org/hglattergotz/pardot.svg)](https://travis-ci.org/hglattergotz/pardot)
 [![Latest Stable Version](https://poser.pugx.org/hgg/pardot/v/stable.svg)](https://packagist.org/packages/hgg/pardot)
 [![Total Downloads](https://poser.pugx.org/hgg/pardot/downloads.svg)](https://packagist.org/packages/hgg/pardot)
 [![License](https://poser.pugx.org/hgg/pardot/license.svg)](https://packagist.org/packages/hgg/pardot)
