@@ -171,14 +171,15 @@ class JsonResponseHandler extends AbstractResponseHandler
     protected function objectNameToKey($object)
     {
         $map = array(
-            'visitorActivity' => 'visitor_activity'
+            'visitorActivity' => 'visitor_activity',
+            'listMembership' => 'list_membership',
         );
 
         if (array_key_exists($object, $map)) {
             return $map[$object];
-        } else {
-            return $object;
         }
+
+        return $object;
     }
 }
 
