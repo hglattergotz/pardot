@@ -178,6 +178,7 @@ class JsonResponseHandler extends AbstractResponseHandler
         if (array_key_exists($object, $map)) {
             return $map[$object];
         }
+
         return $object;
     }
 }
