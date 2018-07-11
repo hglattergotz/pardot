@@ -83,7 +83,7 @@ class Connector
      * @var string
      * @access protected
      */
-    protected $version = '3';
+    protected $version = '4';
 
     /**
      * The output type, which can be full, simple or mobile
